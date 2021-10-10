@@ -9,28 +9,61 @@ void menu() {
     cout << "1. Вывести список товаров" << endl;
     cout << "2. Выбрать товары из списка для покупки и их количество" << endl;
     cout << "3. Вывести список покупок" << endl;
+    cout << "4. Рассчитать НДС чека" << endl;
     cout << "0.Выход" << endl;
 }
+
+int errorProc(int minValue, int maxValue) {
+    int place;
+    while(1) {
+        cin >> place;
+        if (place < minValue || place > maxValue) {
+            cout << "Некорректный ввод, введите еще раз -> ";
+        }
+        else
+            return place;
+    }
+
+}
+
 
 void printProd(vector<Product> &p) {
 
     for (int i = 0; i < p.size(); i++) {
         cout << i + 1 << " ";
-        p[i].printList();
-        
+        p[i].printList(); 
     }
     cout << endl;
         
 }
+
+void printCheck(vector<Purchase*>& check) {
+    for (int i = 0; i < check.size(); i++) {
+        cout << i + 1 << " ";
+        check[i]->printInfo();
+
+    }
+}
+
+void nds(vector<Purchase*> check) {
+    for (int i = 0; i < check.size(); i++) {
+        if (check[i]->getNDS() == false){
+            check[i]->setAmount(check[i]->getAmount() * 1.2);
+            check[i]->setNDS(true);
+        } 
+    }
+    printCheck(check);
+}
+
 void chooseProd(vector<Product>& p, vector<Purchase*>& check) {
     printProd(p);
     int number;
     int countOf;
     cout << "Введите номер товара -> ";
-    cin >> number;
+    number = errorProc(1, INT32_MAX);
     cout << endl;
     cout << "Введите количество товара -> ";
-    cin >> countOf;
+    countOf = errorProc(1, INT32_MAX);
     cout << endl;
     Check* c = new Check(p[number - 1].getName(), countOf, p[number - 1].getPrice(), p[number - 1].getPrice() * countOf);
     check.push_back(c);
@@ -66,9 +99,7 @@ int main() {
     while (!step) {
         cout << endl;
         cout << "Введите пункт меню-> ";
-        
-
-        cin >> selection;
+        selection = errorProc(0, 4);
         cout << endl;
         switch (selection)
         {
@@ -77,7 +108,6 @@ int main() {
             cout << "Выход из программы. До свидания,пользователь :)";
             break;
 
-
         case 1:
             printProd(p);
             break;
@@ -85,12 +115,15 @@ int main() {
         case 2:
             chooseProd(p, check);
             break;
-        case 3:
-            for (int i = 0; i < check.size(); i++) {
-                cout << i + 1 << " ";
-                check[i]->printInfo();
 
-            }
+        case 3:
+            cout << "Список выбранных покупок: " << endl;
+            printCheck(check);
+            break;
+
+        case 4:
+            cout << "Список покупок с расчетом НДС: " << endl;
+            nds(check);
             break;
         }
 

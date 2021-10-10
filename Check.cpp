@@ -2,9 +2,9 @@
 void Check::printInfo() {
 
 	cout << Purchase::getName() << endl;
-	cout << Purchase::getPrice() << endl;
-	cout << Purchase::getCount() << endl;
-	cout << Purchase::getAmount() << endl;
+	cout << "Цена за один товар - " << Purchase::getPrice() << endl;
+	cout << "Количество товара - " << Purchase::getCount() << endl;
+	cout << "Общая сумма - " <<Purchase::getAmount() << endl;
 
 }
 

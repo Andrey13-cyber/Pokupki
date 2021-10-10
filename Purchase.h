@@ -10,7 +10,7 @@ private:
 	int countOf;
 	double price;
 	double amountPrice;
-	
+	bool isNDS;
 
 public:
 	Purchase(const Purchase&);
@@ -24,6 +24,7 @@ public:
 	double getAmount();
 	void setAmount(double amountPrice);
 	virtual void printInfo() = 0;
-
+	void setNDS(bool ok);
+	bool getNDS();
 };
 
